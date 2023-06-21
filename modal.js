@@ -10,6 +10,7 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
+const contentDiv = document.querySelector('.modal-body');
 const formData = document.querySelectorAll(".formData");
 const form = document.querySelector("form[name='reserve']")
 const firstName = document.getElementById("first");
@@ -86,6 +87,8 @@ const validate = (event) => {
 
   if (!isValidForm) return
 
+
+  form.reset()
   hideForm()
   showConfirmationMessage()
 }
@@ -113,4 +116,5 @@ const showConfirmationMessage = () => {
       </div>
     </div>
   `
+  contentDiv.appendChild(confirmationDiv)
 }

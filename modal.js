@@ -29,8 +29,10 @@ const launchModal = () => {
 // close modal form
 const closeModal = () => {
   modalbg.style.display = "none";
-  contentDiv.removeChild(contentDiv.querySelector('.confirmation'))
-  hideForm()
+  if (contentDiv.querySelector('.confirmation')) {
+    contentDiv.removeChild(contentDiv.querySelector('.confirmation'))
+    hideForm()
+  }
 }
 
 // launch modal event

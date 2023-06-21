@@ -1,10 +1,10 @@
 // Set error message for an input
-export const setError = (input, errorMessage) => {
+const setError = (input, errorMessage) => {
   const formControl = input.parentElement;
-  const errorElement = formControl.querySelector(input.name + "-error")
+  const errorElement = formControl.querySelector('.error-message')
   if (!errorElement) {
     const error = document.createElement('p')
-    error.classList.add(input.name + '-error')
+    error.classList.add('error-message')
     error.style.color = "red"
     error.style.fontSize = "1rem"
     error.innerText = errorMessage
@@ -16,7 +16,7 @@ export const setError = (input, errorMessage) => {
 }
 
 // Remove error message for an input
-export const removeError = (input) => {
+const removeError = (input) => {
   const formControl = input.parentElement;
   const errorElement = formControl.querySelector(".error-message")
   if (errorElement) {

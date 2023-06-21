@@ -1,16 +1,3 @@
-import {
-  isValidEmail,
-  isValidQuantity,
-  isLocationSelected,
-  isConditionChecked,
-  isValidName
-} from "./valideInput.js"
-
-import {
-  setError,
-  removeError
-} from "./errorInput.js"
-
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -28,8 +15,9 @@ const form = document.querySelector("form[name='reserve']")
 const firstName = document.getElementById("first");
 const lastName = document.getElementById("last");
 const email = document.getElementById("email");
+const birthdate = document.getElementById("birthdate")
 const quantity = document.getElementById("quantity");
-const location = document.querySelectorAll("input[name='location']");
+const locationInputs = document.querySelectorAll("input[name='location']");
 const checkbox1 = document.getElementById("checkbox1");
 
 // launch modal event
@@ -49,9 +37,10 @@ function closeModal() {
 }
 
 // Validate form function
-const validate = (e) => {
-  e.preventDefault();
+const validate = (event) => {
+  event.preventDefault()
   let isValidForm = true
+
   if (!isValidName(firstName)) {
     setError(firstName, "Veuillez entrer 2 caractères ou plus pour le champ du prénom.")
     isValidForm = false
@@ -70,17 +59,23 @@ const validate = (e) => {
   } else {
     removeError(email)
   }
+  if (!isValidBirthday(birthdate)) {
+    setError(birthdate, "Veuillez entrer une date de naissance valide.")
+    isValidForm = false
+  } else {
+    removeError(birthdate)
+  }
   if (!isValidQuantity(quantity)) {
     setError(quantity, "Veuillez entrer un nombre valide.")
     isValidForm = false
   } else {
     removeError(quantity)
   }
-  if (!isLocationSelected(location)) {
-    setError(location[0], "Veuillez choisir une ville.")
+  if (!isLocationSelected(locationInputs)) {
+    setError(locationInputs[0], "Veuillez choisir une ville.")
     isValidForm = false
   } else {
-    removeError(location[0])
+    removeError(locationInputs[0])
   }
   if (!isConditionChecked(checkbox1)) {
     setError(checkbox1, "Veuillez accepter les conditions d'utilisation.")
@@ -88,18 +83,34 @@ const validate = (e) => {
   } else {
     removeError(checkbox1)
   }
-  return isValidForm
+
+  if (!isValidForm) return
+
+  hideForm()
+  showConfirmationMessage()
 }
 
-// form validation
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  if (validate()) {
-    form.reset()
-    closeModal()
-    alert("Merci ! Votre réservation a été reçue.")
-  }
-});
+// Hide form function
+const hideForm = () => {
+  form.style.display = "none"
+}
 
-
-
+// Show confirmation message function
+const showConfirmationMessage = () => {
+  const confirmationDiv = document.createElement('div')
+  confirmationDiv.classList.add('confirmation')
+  confirmationDiv.innerHTML = `
+    <div class="confirmation__content">
+      <div class="confirmation__content__title">
+        <h2>Merci !</h2>
+      </div>
+      <div class="confirmation__content__text">
+        <p>Votre réservation a été reçue.</p>
+        <p>Nous vous enverrons un mail de confirmation à l'adresse suivante : <span class="confirmation__content__text__email">${email.value}</span></p>
+      </div>
+      <div class="confirmation__content__button">
+        <button class="btn-submit" type="submit" onclick="closeModal()">Fermer</button>
+      </div>
+    </div>
+  `
+}

@@ -21,21 +21,23 @@ const quantity = document.getElementById("quantity");
 const locationInputs = document.querySelectorAll("input[name='location']");
 const checkbox1 = document.getElementById("checkbox1");
 
+// launch modal form
+const launchModal = () => {
+  modalbg.style.display = "block";
+}
+
+// close modal form
+const closeModal = () => {
+  modalbg.style.display = "none";
+  contentDiv.removeChild(contentDiv.querySelector('.confirmation'))
+  hideForm()
+}
+
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // close modal event
 document.querySelector(".close").addEventListener("click", closeModal);
-
-// launch modal form
-function launchModal() {
-  modalbg.style.display = "block";
-}
-
-// close modal form
-function closeModal() {
-  modalbg.style.display = "none";
-}
 
 // Validate form function
 const validate = (event) => {
@@ -87,7 +89,6 @@ const validate = (event) => {
 
   if (!isValidForm) return
 
-
   form.reset()
   hideForm()
   showConfirmationMessage()
@@ -95,7 +96,9 @@ const validate = (event) => {
 
 // Hide form function
 const hideForm = () => {
-  form.style.display = "none"
+  form.style.display === "none" ?
+    form.style.display = "block" :
+    form.style.display = "none"
 }
 
 // Show confirmation message function

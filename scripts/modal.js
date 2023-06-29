@@ -1,4 +1,17 @@
-function editNav() {
+import {
+  isValidName,
+  isValidEmail,
+  isValidBirthday,
+  isValidQuantity,
+  isLocationSelected,
+  isConditionChecked
+} from './valideInput.js'
+import {
+  setError,
+  removeError
+} from './errorInput.js'
+
+const editNav = () => {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
     x.className += " responsive";
@@ -7,11 +20,13 @@ function editNav() {
   }
 }
 
+// EditNav on icon event
+document.querySelector(".icon").addEventListener("click", editNav);
+
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const contentDiv = document.querySelector('.modal-body');
-const formData = document.querySelectorAll(".formData");
 const form = document.querySelector("form[name='reserve']")
 const firstName = document.getElementById("first");
 const lastName = document.getElementById("last");
@@ -106,20 +121,21 @@ const hideForm = () => {
 // Show confirmation message function
 const showConfirmationMessage = () => {
   const confirmationDiv = document.createElement('div')
+  const confirmationP = document.createElement('p')
+  const closeButton = document.createElement('button')
+
+  closeButton.classList.add('button')
   confirmationDiv.classList.add('confirmation')
-  confirmationDiv.innerHTML = `
-    <div class="confirmation__content">
-      <div class="confirmation__content__title">
-        <h2>Merci !</h2>
-      </div>
-      <div class="confirmation__content__text">
-        <p>Votre réservation a été reçue.</p>
-        <p>Nous vous enverrons un mail de confirmation à l'adresse suivante : <span class="confirmation__content__text__email">${email.value}</span></p>
-      </div>
-      <div class="confirmation__content__button">
-        <button class="btn-submit" type="submit" onclick="closeModal()">Fermer</button>
-      </div>
-    </div>
-  `
+
+  closeButton.textContent = 'Fermer'
+  confirmationP.textContent = 'Merci pour votre inscription'
+
+  closeButton.addEventListener('click', closeModal)
+  // Add elements to the DOM
   contentDiv.appendChild(confirmationDiv)
+  confirmationDiv.appendChild(confirmationP)
+  confirmationDiv.appendChild(closeButton)
 }
+
+// submit event
+form.addEventListener("submit", validate)

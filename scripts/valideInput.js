@@ -32,13 +32,8 @@ export const isValidQuantity = (input) => {
 }
 // Check if an input is valid location
 export const isLocationSelected = (input) => {
-  let isLocationSelected = false
-  input.forEach((location) => {
-    if (location.checked) {
-      isLocationSelected = true
-    }
-  })
-  return isLocationSelected
+  const isAnyLocationSelected = input.some(radio => radio.checked);
+  return isAnyLocationSelected
 }
 
 // Check if an input is valid condition

@@ -6,9 +6,9 @@ import {
   isLocationSelected,
   isConditionChecked
 } from './valideInput.js'
+
 import {
-  setError,
-  removeError
+  checkError,
 } from './errorInput.js'
 
 const editNav = () => {
@@ -61,48 +61,13 @@ const validate = (event) => {
   event.preventDefault()
   let isValidForm = true
 
-  if (!isValidName(firstName)) {
-    setError(firstName, "Veuillez entrer 2 caractères ou plus pour le champ du prénom.")
-    isValidForm = false
-  } else {
-    removeError(firstName)
-  }
-  if (!isValidName(lastName)) {
-    setError(lastName, "Veuillez entrer 2 caractères ou plus pour le champ du nom.")
-    isValidForm = false
-  } else {
-    removeError(lastName)
-  }
-  if (!isValidEmail(email)) {
-    setError(email, "Veuillez entrer une adresse email valide.")
-    isValidForm = false
-  } else {
-    removeError(email)
-  }
-  if (!isValidBirthday(birthdate)) {
-    setError(birthdate, "Veuillez entrer une date de naissance valide.")
-    isValidForm = false
-  } else {
-    removeError(birthdate)
-  }
-  if (!isValidQuantity(quantity)) {
-    setError(quantity, "Veuillez entrer un nombre valide.")
-    isValidForm = false
-  } else {
-    removeError(quantity)
-  }
-  if (!isLocationSelected(locationInputs)) {
-    setError(locationInputs[0], "Veuillez choisir une ville.")
-    isValidForm = false
-  } else {
-    removeError(locationInputs[0])
-  }
-  if (!isConditionChecked(checkbox1)) {
-    setError(checkbox1, "Veuillez accepter les conditions d'utilisation.")
-    isValidForm = false
-  } else {
-    removeError(checkbox1)
-  }
+  isValidForm = checkError(firstName, isValidName) && isValidForm;
+  isValidForm = checkError(lastName, isValidName) && isValidForm;
+  isValidForm = checkError(email, isValidEmail) && isValidForm;
+  isValidForm = checkError(birthdate, isValidBirthday) && isValidForm;
+  isValidForm = checkError(quantity, isValidQuantity) && isValidForm;
+  isValidForm = checkError(Array.from(locationInputs), isLocationSelected) && isValidForm;
+  isValidForm = checkError(checkbox1, isConditionChecked) && isValidForm;
 
   if (!isValidForm) return
 
@@ -120,17 +85,23 @@ const hideForm = () => {
 
 // Show confirmation message function
 const showConfirmationMessage = () => {
+
+  // Create Element
   const confirmationDiv = document.createElement('div')
   const confirmationP = document.createElement('p')
   const closeButton = document.createElement('button')
 
-  closeButton.classList.add('button')
+  // Add class
+  closeButton.classList.add('btn-submit')
   confirmationDiv.classList.add('confirmation')
 
+  // Add content
   closeButton.textContent = 'Fermer'
   confirmationP.textContent = 'Merci pour votre inscription'
 
+  // Add event
   closeButton.addEventListener('click', closeModal)
+
   // Add elements to the DOM
   contentDiv.appendChild(confirmationDiv)
   confirmationDiv.appendChild(confirmationP)

@@ -1,26 +1,15 @@
 // Set error message for an input
 export const setError = (input, errorMessage) => {
   const formControl = input.parentElement;
-  const errorElement = formControl.querySelector('.error-message')
-  if (!errorElement) {
-    const error = document.createElement('p')
-    error.classList.add('error-message')
-    error.style.color = "red"
-    error.style.fontSize = "1rem"
-    error.innerText = errorMessage
-    formControl.appendChild(error)
-  } else {
-    errorElement.innerText = errorMessage
-  }
-  formControl.classList.add('error')
+
+  formControl.setAttribute('data-error', errorMessage);
+  formControl.setAttribute('data-error-visible', 'true');
 }
 
 // Remove error message for an input
 export const removeError = (input) => {
   const formControl = input.parentElement;
-  const errorElement = formControl.querySelector(".error-message")
-  if (errorElement) {
-    formControl.removeChild(errorElement)
-    formControl.classList.remove("error")
-  }
+
+  formControl.removeAttribute('data-error');
+  formControl.removeAttribute('data-error-visible');
 }
